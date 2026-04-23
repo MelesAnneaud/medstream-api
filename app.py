@@ -19,10 +19,12 @@ def user():
 def receive_data(data: dict):
     return {"received": data}
 
-@app.get("/resume")
+# 🔥 THIS IS YOUR RESUME ENDPOINT
+@app.get("/resume", response_class=FileResponse)
 def get_resume():
     return FileResponse(
         "Meles_Anneaud_Resume.pdf",
         media_type="application/pdf",
         filename="Meles_Anneaud_Resume.pdf"
     )
+    
