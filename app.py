@@ -1,29 +1,36 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
+from pathlib import Path
 
 app = FastAPI()
 
+# Root route
 @app.get("/")
 def root():
     return {"message": "MedStream API is running 🚀"}
 
+# Hello route
 @app.get("/hello")
 def hello():
     return {"message": "Hello World"}
 
+# User route
 @app.get("/user")
 def user():
     return {"name": "Meles", "role": "Backend Developer"}
 
+# POST route
 @app.post("/data")
 def receive_data(data: dict):
     return {"received": data}
 
-# 🔥 THIS IS YOUR RESUME ENDPOINT
+# ✅ Resume route (FIXED)
 @app.get("/resume", response_class=FileResponse)
 def get_resume():
+    file_path = Path(__file__).parent / "Meles_Anneaud_Resume.pdf"
+
     return FileResponse(
-        "Meles_Anneaud_Resume.pdf",
+        path=file_path,
         media_type="application/pdf",
         filename="Meles_Anneaud_Resume.pdf"
     )
