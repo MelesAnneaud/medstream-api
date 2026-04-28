@@ -35,3 +35,14 @@ def get_resume():
         filename="Meles_Anneaud_Resume.pdf"
     )
     
+from pathlib import Path
+from fastapi.responses import FileResponse
+
+@app.get("/resume")
+def get_resume():
+    file_path = Path(__file__).parent / "Meles_Anneaud_Resume.pdf"
+    return FileResponse(
+        path=file_path,
+        media_type="application/pdf",
+        filename="Meles_Anneaud_Resume.pdf"
+    )
