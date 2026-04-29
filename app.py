@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from fastapi.responses import FileResponse
 from pathlib import Path
 
@@ -16,11 +16,18 @@ def hello():
 def user():
     return {"name": "Meles", "role": "Backend Developer"}
 
-@app.get("/resume", response_class=FileResponse)
+@app.get("/resume")
 def get_resume():
     file_path = Path(__file__).parent / "Meles_Anneaud_Resume.pdf"
+
+    if not file_path.exists():
+        raise HTTPException(
+            status_code=404,
+            detail=f"Resume file not found. Looking for: {file_path}"
+        )
+
     return FileResponse(
-        path=file_path,
+        path=str(file_path),
         media_type="application/pdf",
         filename="Meles_Anneaud_Resume.pdf"
     )
