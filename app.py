@@ -18,16 +18,21 @@ def user():
 
 @app.get("/resume")
 def get_resume():
-    file_path = Path(__file__).parent / "Meles_Anneaud_Resume.pdf"
+    base_path = Path(__file__).parent
 
-    if not file_path.exists():
+    pdf_files = list(base_path.rglob("*.pdf"))
+
+    if not pdf_files:
+        all_files = [str(file) for file in base_path.rglob("*")]
         raise HTTPException(
             status_code=404,
-            detail=f"Resume file not found. Looking for: {file_path}"
+            detail={"message": "No PDF found", "files": all_files}
         )
+
+    file_path = pdf_files[0]
 
     return FileResponse(
         path=str(file_path),
         media_type="application/pdf",
-        filename="Meles_Anneaud_Resume.pdf"
+        filename=file_path.name
     )
