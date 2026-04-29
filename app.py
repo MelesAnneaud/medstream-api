@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 from fastapi.responses import FileResponse
-from pathlib import Path
 
 app = FastAPI()
 
@@ -20,12 +19,6 @@ def user():
     return {"name": "Meles", "role": "Backend Developer"}
 
 # Resume route (ONLY ONE)
-@app.get("/resume", response_class=FileResponse)
+@app.get("/resume")
 def get_resume():
-    file_path = Path(__file__).parent / "Meles_Anneaud_Resume.pdf"
-
-    return FileResponse(
-        path=file_path,
-        media_type="application/pdf",
-        filename="Meles_Anneaud_Resume.pdf"
-    )
+    return FileResponse("Meles_Anneaud_Resume.pdf")
